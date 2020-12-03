@@ -1,6 +1,11 @@
 'use strict';
-// $('#led-r').turnOn(); pin 22 , 4G data activity
-// $('#led-r').turnOff(); pin 24, USB Serial data activity
+/****
+ * 
+ * $('#led-r').turnOn(); pin 22 , 4G data activity
+ * $('#led-r').turnOff(); pin 24, USB Serial data activity
+ * 
+ */
+var net = require('net');
 
 // load usb serial port
 function createUartInstance(path, options) {
@@ -19,13 +24,52 @@ var uartOptions = {
     parity: 'none',
     flowControl: 'none'
 };
-function runApp() {
-    setInterval(function () {
-        console.log("output");
-        $('#led-r').turnOn();
-        $('#led-b').turnOn();
-    }, 2000);
+
+var DST_IP = "139.219.8.117";
+var DST_PORT = 13100;
+var client = new net.Socket();
+var handleConnected = false;
+var bConnected = false;
+
+function connect() {
+    client.connect({
+        port: DST_PORT,
+        host: DST_IP
+    })
 }
+function launchIntervalConnect() {
+    bConnected = false;
+    if (handleConnected !== false) {
+        return;
+    }
+    handleConnected = setInterval(connect, 10000);
+}
+function clearIntervalConnect() {
+    if (handleConnected === false) {
+        return
+    }
+    clearInterval(handleConnected);
+    handleConnected = false;
+}
+
+client.on('connect', function () {
+    clearIntervalConnect();
+    console.log("Connected to server", "TCP", DST_IP, ":", DST_PORT);
+    bConnected = true;
+});
+
+client.on('data', function (data) {
+    console.log("->", data.toString());
+});
+
+client.on('error', function (error) {
+    console.error(error);
+});
+
+client.on('close', launchIntervalConnect);
+
+client.on('end', launchIntervalConnect);
+
 $.ready(function (error) {
     if (error) {
         console.log(error);
@@ -33,18 +77,30 @@ $.ready(function (error) {
     }
     console.log("start");
 
-    var uartPort = createUartInstance('/dev/ttyUSB0', uartOptions);
+    var uartPort = createUartInstance('/dev/ttyUSB1', uartOptions);
 
     if (uartPort === undefined) {
-        console.error("Can not open port")
+        console.error("Can not open port !!!")
     } else {
         console.log("USB port opened OK");
-        runApp();
+        connect();
+
+        setInterval(function () {
+            if (bConnected === false) {
+                return;
+            }
+            client.write("Hello");
+        }, 8000);
+
+        uartPort.on('data',function(data){
+            console.log("USB:", data)
+        })
     }
 
 
 });
 
 $.end(function () {
-
+    $('#led-r').turnOff();
+    $('#led-b').turnOff();
 });
