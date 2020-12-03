@@ -1,0 +1,10 @@
+{
+    "ruff": {
+        "boards": {
+            "ruff-mbd-schneider-v1": {
+                "version": "0.1.0",
+                "isActive": true
+            }
+        }
+    }
+}
