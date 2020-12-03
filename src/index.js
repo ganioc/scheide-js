@@ -2,12 +2,27 @@
 /****
  * 
  * $('#led-r').turnOn(); pin 22 , 4G data activity
- * $('#led-r').turnOff(); pin 24, USB Serial data activity
+ * $('#led-b').turnOff(); pin 24, USB Serial data activity
  * 
  */
 var net = require('net');
 
 var USB_DEVPATH = "/dev/ttyUSB0"
+
+function usb_data_on(){
+    $('#led-b').turnOn();
+    setTimeout(function(){
+        $('#led-b').turnOff();
+    },100);
+}
+
+function mobile_data_on(){
+    $('#led-r').turnOn();
+    setTimeout(function(){
+        $('#led-r').turnOff();
+    }, 100)
+}
+
 
 // load usb serial port
 function createUartInstance(path, options) {
@@ -92,7 +107,9 @@ $.ready(function (error) {
         //     if (bConnected === false) {
         //         return;
         //     }
+        //     mobile_data_on();
         //     client.write("Hello");
+        //     
         // }, 8000);
 
         uartPort.on('data',function(data){
@@ -101,6 +118,7 @@ $.ready(function (error) {
 
         setInterval(function(){
             console.log("Send out");
+            usb_data_on()
             uartPort.write("GoGoGoGo");
         }, 2000)
     }
