@@ -7,6 +7,8 @@
  */
 var net = require('net');
 
+var USB_DEVPATH = "/dev/ttyUSB0"
+
 // load usb serial port
 function createUartInstance(path, options) {
     var DeviceConstructor = require('sys-uart');
@@ -77,24 +79,30 @@ $.ready(function (error) {
     }
     console.log("start");
 
-    var uartPort = createUartInstance('/dev/ttyUSB1', uartOptions);
+    var uartPort = createUartInstance(USB_DEVPATH, uartOptions);
 
     if (uartPort === undefined) {
         console.error("Can not open port !!!")
     } else {
         console.log("USB port opened OK");
-        connect();
+        
+        // connect();
 
-        setInterval(function () {
-            if (bConnected === false) {
-                return;
-            }
-            client.write("Hello");
-        }, 8000);
+        // setInterval(function () {
+        //     if (bConnected === false) {
+        //         return;
+        //     }
+        //     client.write("Hello");
+        // }, 8000);
 
         uartPort.on('data',function(data){
             console.log("USB:", data)
         })
+
+        setInterval(function(){
+            console.log("Send out");
+            uartPort.write("GoGoGoGo");
+        }, 2000)
     }
 
 
