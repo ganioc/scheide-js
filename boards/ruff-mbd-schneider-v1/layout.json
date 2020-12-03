@@ -1,0 +1,7 @@
+{
+    "mapping": {
+        "adc/vcc": "ruff-mbd-schneider-v1/vdd-0",
+        "adc/gnd": "ruff-mbd-schneider-v1/gnd-0",
+        "adc/i2c": "ruff-mbd-schneider-v1/i2c-0"
+    }
+}

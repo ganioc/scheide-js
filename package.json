@@ -5,7 +5,9 @@
     "author": "",
     "main": "src/index.js",
     "ruff": {
-        "dependencies": {},
+        "dependencies": {
+            "adc128d818": "*"
+        },
         "version": 1
     }
 }

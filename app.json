@@ -1,3 +1,43 @@
 {
-    "devices": []
+    "devices": [
+        {
+            "id": "adc",
+            "model": "adc",
+            "driver": "adc128d818",
+            "outputs": {
+                "an-0": {
+                    "type": "adc"
+                },
+                "an-1": {
+                    "type": "adc"
+                },
+                "an-2": {
+                    "type": "adc"
+                },
+                "an-3": {
+                    "type": "adc"
+                },
+                "an-4": {
+                    "type": "adc"
+                },
+                "an-5": {
+                    "type": "adc"
+                },
+                "an-6": {
+                    "type": "adc"
+                },
+                "an-7": {
+                    "type": "adc"
+                }
+            },
+            "inputs": {
+                "i2c": {
+                    "type": "i2c",
+                    "args": {
+                        "address": 29
+                    }
+                }
+            }
+        }
+    ]
 }
