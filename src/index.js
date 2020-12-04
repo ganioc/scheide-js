@@ -6,6 +6,7 @@
  * 
  */
 var net = require('net');
+var uartPort;
 
 var USB_DEVPATH = "/dev/ttyUSB0"
 
@@ -77,6 +78,7 @@ client.on('connect', function () {
 
 client.on('data', function (data) {
     console.log("->", data.toString());
+    uartPort.write(data);
 });
 
 client.on('error', function (error) {
@@ -94,36 +96,31 @@ $.ready(function (error) {
     }
     console.log("start");
 
-    var uartPort = createUartInstance(USB_DEVPATH, uartOptions);
+    uartPort = createUartInstance(USB_DEVPATH, uartOptions);
 
     if (uartPort === undefined) {
         console.error("Can not open port !!!")
     } else {
         console.log("USB port opened OK");
         
-        // connect();
-
-        // setInterval(function () {
-        //     if (bConnected === false) {
-        //         return;
-        //     }
-        //     mobile_data_on();
-        //     client.write("Hello");
-        //     
-        // }, 8000);
+        connect(); // Connect to TCP server
 
         uartPort.on('data',function(data){
+            usb_data_on();
             console.log("USB:", data)
         })
 
-        setInterval(function(){
-            console.log("Send out");
-            usb_data_on()
-            uartPort.write("GoGoGoGo");
-        }, 2000)
+        var i=0;
+        setInterval(function () {
+            if (bConnected === false) {
+                return;
+            }
+            mobile_data_on();
+
+            client.write("Num:" + (i++) + ":" + "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee");
+    
+        }, 5000);
     }
-
-
 });
 
 $.end(function () {
