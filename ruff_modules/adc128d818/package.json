@@ -1,0 +1,7 @@
+{
+    "name": "adc128d818",
+    "version": "0.1.0",
+    "description": "12-bit 8-channel ADC System Monitor",
+    "author": "Yang",
+    "main": "src/index.js"
+}
