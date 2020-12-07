@@ -6,8 +6,6 @@
     "preloads": {
         "uart-0": "uart-0/uart",
         "gpio-0": "gpio-0/gpio",
-        "gpio-11": "gpio-11/gpio",
-        "gpio-12": "gpio-12/gpio",
         "gpio-13": "gpio-13/gpio",
         "gpio-14": "gpio-14/gpio",
         "gpio-17": "gpio-17/gpio",
