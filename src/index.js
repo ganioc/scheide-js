@@ -10,6 +10,10 @@ var uartPort;
 
 var USB_DEVPATH = "/dev/ttyUSB0"
 
+function find_usb_serial(){
+    
+}
+
 function usb_data_on(){
     $('#led-b').turnOn();
     setTimeout(function(){
@@ -94,7 +98,7 @@ $.ready(function (error) {
         console.log(error);
         return;
     }
-    console.log("start");
+    console.log("start -->");
 
     uartPort = createUartInstance(USB_DEVPATH, uartOptions);
 
